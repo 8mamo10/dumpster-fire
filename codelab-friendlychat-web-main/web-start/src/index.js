@@ -49,13 +49,16 @@ import { getFirebaseConfig } from './firebase-config.js';
 
 // Signs-in Friendly Chat.
 async function signIn() {
-  alert('TODO: Implement Google Sign-In');
+  //alert('TODO: Implement Google Sign-In');
   // TODO 1: Sign in Firebase with credential from the Google user.
+  var provider = new GoogleAuthProvider();
+  await signInWithPopup(getAuth(), provider)
 }
 
 // Signs-out of Friendly Chat.
 function signOutUser() {
   // TODO 2: Sign out of Firebase.
+  signOut(getAuth())
 }
 
 // Initiate firebase auth
