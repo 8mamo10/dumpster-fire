@@ -148,6 +148,26 @@ async function saveImageMessage(file) {
 // Saves the messaging device token to Cloud Firestore.
 async function saveMessagingDeviceToken() {
   // TODO 10: Save the device token in Cloud Firestore
+  try {
+    const currentToken = await getToken(getMessaging());
+    if (currentToken) {
+      console.log('Got FCM device token: ', currentToken);
+
+      const tokenRef = doc(getFirestore(), 'fcmTokens', currentToken);
+      await setDoc(tokenRef, { uid: getAuth().currentUser.uid });
+
+      onMessage(getMessaging(), (message) => {
+        console.log(
+          'New foreground notification from Firebase Messaging',
+          message.notification
+        );
+      });
+    } else {
+      requestNotificationsPermissions();
+    }
+  } catch (error) {
+    console.error('Unable to get messaging token.', error);
+  }
 }
 
 // Requests permissions to show notifications.
