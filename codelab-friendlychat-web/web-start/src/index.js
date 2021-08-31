@@ -125,12 +125,12 @@ async function saveImageMessage(file) {
   try {
     const messageRef = await addDoc(collection(getFirestore(), 'messages'), {
       name: getUserName(),
-      imageUrl: getProfilePicUrl(),
+      imageUrl: LOADING_IMAGE_URL,
       profilePicUrl: getProfilePicUrl(),
       timestamp: serverTimestamp()
     });
 
-    const filePath = `${getAuth().currentUser.uid}/${messageRef.id}/${fileName}`;
+    const filePath = `${getAuth().currentUser.uid}/${messageRef.id}/${file.name}`;
     const newImageRef = ref(getStorage(), filePath);
     const fileSnapshot = await uploadBytesResumable(newImageRef, file);
 
@@ -140,7 +140,7 @@ async function saveImageMessage(file) {
       imageUrl: publicImageUrl,
       storageUri: fileSnapshot.metadata.fullPath
     });
-  } catch (eror) {
+  } catch (error) {
     console.error('There was an error uploading a file to Cloud Storage', error);
   }
 }
