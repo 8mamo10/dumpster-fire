@@ -173,6 +173,15 @@ async function saveMessagingDeviceToken() {
 // Requests permissions to show notifications.
 async function requestNotificationsPermissions() {
   // TODO 11: Request permissions to send notifications.
+  console.log('Requesting notifications permission...');
+  const permission = await Notification.requestPermission();
+
+  if (permission === 'granted') {
+    console.log('Notification permission granted');
+    await saveMessagingDeviceToken();
+  } else {
+    console.log('Unable to get permission to notify');
+  }
 }
 
 // Triggered when a file is selected via the media picker.
