@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "@8mamo10/dumpster-fire",
   "version": "1.0.0",
   "description": "",
   "main": "dump.js",
@@ -11,5 +11,8 @@
   "license": "ISC",
   "bin": {
     "cli": "bin/cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

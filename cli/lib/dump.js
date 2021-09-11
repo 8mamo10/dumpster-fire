@@ -17,8 +17,8 @@ module.exports = () => {
   console.log(msg);
 
   rl.question("Please enter some phrase: ", answer => {
-    console.log(`Thank you ! Let's start ${answer}`);
-
+    console.log(`Thank you ! Let's start ${answer}.`);
+    console.log("This is still a sample, to be implemented.");
     rl.close();
   });
 }
