@@ -1,6 +1,10 @@
+'use strict';
+
 const readline = require("readline");
+//const { getFirebaseConfig } = require("../../codelab-friendlychat-web/web-start/src/firebase-config");
 
 module.exports = () => {
+
   const [, , firstArg] = process.argv;
   if (!firstArg) {
     console.error("Please pass one argument!!");
@@ -21,6 +25,8 @@ module.exports = () => {
     console.log("This is still a sample, to be implemented.");
     rl.close();
   });
+
+  //const firebaseAppConfig = getFirebaseConfig();
 }
 
 
