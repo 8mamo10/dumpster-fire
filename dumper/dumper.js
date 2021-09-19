@@ -1,7 +1,13 @@
-import { initializeApp } from 'firebase/app';
+#!/usr/bin/env node
 
-console.log(111);
+const program = require('commander');
 
-const config = {
-};
-initializeApp(config);
+let outputFilePath = './dump.csv';
+
+program.option('-o, --out [path]', 'A path to the output file.').parse(process.argv)
+
+if (program.out) outputFilePath = program.out;
+
+console.log(program.out);
+
+
