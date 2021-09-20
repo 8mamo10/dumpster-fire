@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const program = require('commander');
+const fs = require('fs');
+
 const { credential, firestore } = require('firebase-admin');
 
 const credentialPath = './serviceAccountKey.json';
@@ -11,6 +13,7 @@ program.option('-o, --out [path]', 'A path to the output file.').parse(process.a
 if (program.out) outputFilePath = program.out;
 
 const admin = require('firebase-admin');
+const { deepStrictEqual } = require('assert');
 const serviceAccount = require(credentialPath);
 
 admin.initializeApp({
@@ -22,26 +25,31 @@ const db = admin.firestore();
 
 console.log('[INFO] Start listren to Firestore.');
 
+let csv = '';
+
 let query = db.collection('messages');
 query.orderBy('timestamp', 'desc').get().then(querySnapshot => {
   querySnapshot.forEach(documentSnapshot => {
     console.log(`[INFO] Found document at ${documentSnapshot.ref.path}`);
-    data = JSON.stringify(documentSnapshot.data(), null, 2);
-    console.log(data);
+    data = documentSnapshot.data();
+    str = JSON.stringify(data, null, 2);
+    console.log(str);
+    csv += data.name;
+    csv += ',';
+    csv += data.text;
+    csv += '\n';
   });
+  console.log(csv);
+
+  fs.writeFile(outputFilePath, csv, 'utf8', (error) => {
+    if (error) {
+      console.error(`[ERROR] Cannot write to ${outputFilePath}.`);
+      console.error(`[ERROR] ${error}`);
+      process.exit(1);
+    } else {
+      console.log(`[INFO] ${outputFilePath} is written.`)
+    }
+  })
 });
-
-
-
-/*
-const unsub = db.collection('messages').doc('test').onSnapshot(snapshot => {
-  console.log('[INFO] Firestore are changed.');
-  console.log(snapshot.data());
-}, error => {
-  console.error(`[ERROR] Can't observe firestore document.`)
-  console.error(`[ERROR] ${error}`)
-  process.exit(1)
-});
-*/
 
 console.log('[EXIT]');
