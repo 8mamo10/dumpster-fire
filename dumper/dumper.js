@@ -13,7 +13,6 @@ program.option('-o, --out [path]', 'A path to the output file.').parse(process.a
 if (program.out) outputFilePath = program.out;
 
 const admin = require('firebase-admin');
-const { deepStrictEqual } = require('assert');
 const serviceAccount = require(credentialPath);
 
 admin.initializeApp({
@@ -33,13 +32,13 @@ query.orderBy('timestamp', 'desc').get().then(querySnapshot => {
     console.log(`[INFO] Found document at ${documentSnapshot.ref.path}`);
     data = documentSnapshot.data();
     str = JSON.stringify(data, null, 2);
-    console.log(str);
+    //console.log(str);
     csv += data.name;
     csv += ',';
     csv += data.text;
     csv += '\n';
   });
-  console.log(csv);
+  //console.log(csv);
 
   fs.writeFile(outputFilePath, csv, 'utf8', (error) => {
     if (error) {
